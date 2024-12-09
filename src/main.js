@@ -2,7 +2,7 @@ import './styles/main.css';
 import { Dashboard } from './components/Dashboard';
 import feather from 'feather-icons';
 
-// Create the initial HTML structure
+// Creating the initial HTML structure
 document.querySelector('#app').innerHTML = `
   <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
     <header class="bg-white dark:bg-gray-800 shadow">
@@ -42,7 +42,6 @@ document.querySelector('#app').innerHTML = `
 const dashboard = new Dashboard();
 document.getElementById('dashboard-container').appendChild(dashboard.render());
 
-// Theme toggle functionality
 const themeToggle = document.getElementById('theme-toggle');
 themeToggle.addEventListener('click', () => {
   document.documentElement.classList.toggle('dark');
@@ -697,6 +696,5 @@ toolSelector.addEventListener('change', () => {
   }
 });
 
-// Add initial JSON Formatter tool
 const initialTool = toolTemplates.json;
 dashboard.addTool('json-formatter', initialTool.title, initialTool.content, initialTool.action);
