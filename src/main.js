@@ -1,4 +1,5 @@
 import './styles/main.css';
+import { marked } from 'marked';
 import { Dashboard } from './components/Dashboard';
 import feather from 'feather-icons';
 
@@ -262,12 +263,15 @@ function createTimestampConverter(card) {
 }
 
 function createMarkdownPreviewer(card) {
-  const textarea = card.querySelector('textarea');
+  const textarea = card.querySelector('.markdown-input');
   const previewArea = card.querySelector('.preview-area');
+
+  // Set initial preview
+  previewArea.innerHTML = marked.parse(textarea.value || '');
 
   textarea?.addEventListener('input', () => {
     const markdownText = textarea.value;
-    previewArea.innerHTML = marked(markdownText);
+    previewArea.innerHTML = marked.parse(markdownText);
   });
 }
 
@@ -561,13 +565,27 @@ const toolTemplates = {
   },
   markdown: {
     title: 'Markdown Previewer',
-    content: `<div class="space-y-4">
+    content: `<div class="flex flex-col h-full gap-4">
       <textarea 
-        class="w-full h-32 p-2 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white font-mono"
+        class="markdown-input w-full h-[200px] p-2 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white font-mono resize-none"
         placeholder="Enter Markdown text..."
-      ></textarea>
-      <div class="preview-area w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-        <!-- Rendered HTML will appear here -->
+      ># Markdown Preview Example
+  
+  This is a **bold text** example.
+  
+  ## Lists
+  - Item 1
+  - Item 2
+    - Nested item
+  
+  ## Links
+  [OpenAI](https://openai.com)
+  
+  ## Code
+  \`\`\`javascript
+  console.log('Hello World');
+  \`\`\`</textarea>
+      <div class="preview-area prose dark:prose-invert w-full h-[200px] p-4 border rounded dark:bg-gray-700 dark:border-gray-600 overflow-auto">
       </div>
     </div>`,
     action: createMarkdownPreviewer
